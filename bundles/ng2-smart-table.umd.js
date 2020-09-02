@@ -5,18 +5,18 @@
 }(this, (function (exports, core, common, forms, ng2Completer, operators, rxjs, lodash, http) { 'use strict';
 
     /*! *****************************************************************************
-    Copyright (c) Microsoft Corporation. All rights reserved.
-    Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-    this file except in compliance with the License. You may obtain a copy of the
-    License at http://www.apache.org/licenses/LICENSE-2.0
+    Copyright (c) Microsoft Corporation.
 
-    THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-    WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-    MERCHANTABLITY OR NON-INFRINGEMENT.
+    Permission to use, copy, modify, and/or distribute this software for any
+    purpose with or without fee is hereby granted.
 
-    See the Apache Version 2.0 License for specific language governing permissions
-    and limitations under the License.
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+    AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+    LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+    OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+    PERFORMANCE OF THIS SOFTWARE.
     ***************************************************************************** */
     /* global Reflect, Promise */
 
@@ -109,8 +109,13 @@
         }
     }
 
+    function __createBinding(o, m, k, k2) {
+        if (k2 === undefined) k2 = k;
+        o[k2] = m[k];
+    }
+
     function __exportStar(m, exports) {
-        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+        for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
     }
 
     function __values(o) {
@@ -1392,11 +1397,11 @@
     function PagerComponent_div_0_Template(rf, ctx) { if (rf & 1) {
         core.ɵɵelementStart(0, "div", 3);
         core.ɵɵelementStart(1, "p");
-        core.ɵɵtext(2, "Showing ");
+        core.ɵɵtext(2);
         core.ɵɵelementStart(3, "strong");
         core.ɵɵtext(4);
         core.ɵɵelementEnd();
-        core.ɵɵtext(5, " to ");
+        core.ɵɵtext(5);
         core.ɵɵelementStart(6, "strong");
         core.ɵɵtext(7);
         core.ɵɵelementEnd();
@@ -1405,12 +1410,16 @@
         core.ɵɵelementEnd();
     } if (rf & 2) {
         var ctx_r0 = core.ɵɵnextContext();
-        core.ɵɵadvance(4);
-        core.ɵɵtextInterpolate((ctx_r0.page - 1) * ctx_r0.currentPerPage + 1);
-        core.ɵɵadvance(3);
-        core.ɵɵtextInterpolate1("", ctx_r0.getPage() == ctx_r0.getLast() ? ctx_r0.count : ctx_r0.page * ctx_r0.currentPerPage, " ");
+        core.ɵɵadvance(2);
+        core.ɵɵtextInterpolate1("\n", ctx_r0.showing, " ");
+        core.ɵɵadvance(2);
+        core.ɵɵtextInterpolate((ctx_r0.page - 1) * ctx_r0.perPage + 1);
         core.ɵɵadvance(1);
-        core.ɵɵtextInterpolate1(" of ", ctx_r0.count, " entries");
+        core.ɵɵtextInterpolate1(" ", ctx_r0.to, " ");
+        core.ɵɵadvance(2);
+        core.ɵɵtextInterpolate(ctx_r0.page * ctx_r0.perPage > ctx_r0.count ? ctx_r0.count : ctx_r0.page * ctx_r0.perPage);
+        core.ɵɵadvance(1);
+        core.ɵɵtextInterpolate3(" ", ctx_r0.of, " ", ctx_r0.count, " ", ctx_r0.entries, "");
     } }
     function PagerComponent_nav_1_li_14_span_1_Template(rf, ctx) { if (rf & 1) {
         core.ɵɵelementStart(0, "span", 16);
@@ -1545,9 +1554,29 @@
     } }
     var PagerComponent = /** @class */ (function () {
         function PagerComponent() {
+            this.showing = "Showing";
+            this.to = "to";
+            this.of = "of";
+            this.entries = "entries";
             this.perPageSelect = [];
             this.changePage = new core.EventEmitter();
             this.count = 0;
+            var langContent = localStorage.getItem("getContent");
+            if (langContent) {
+                var lngobj = JSON.parse(langContent);
+                if ("common" in lngobj) {
+                    var common = lngobj.common;
+                    if (("paginationContentKey1" in common) &&
+                        ("paginationContentKey2" in common) &&
+                        ("paginationContentKey3" in common) &&
+                        ("paginationContentKey5" in common)) {
+                        this.showing = common.paginationContentKey1;
+                        this.to = common.paginationContentKey2;
+                        this.of = common.paginationContentKey3;
+                        this.entries = common.paginationContentKey5;
+                    }
+                }
+            }
         }
         PagerComponent.prototype.ngOnChanges = function (changes) {
             var _this = this;
@@ -1639,7 +1668,7 @@
         };
         PagerComponent.ɵfac = function PagerComponent_Factory(t) { return new (t || PagerComponent)(); };
         PagerComponent.ɵcmp = core.ɵɵdefineComponent({ type: PagerComponent, selectors: [["ng2-smart-table-pager"]], inputs: { source: "source", perPageSelect: "perPageSelect" }, outputs: { changePage: "changePage" }, features: [core.ɵɵNgOnChangesFeature], decls: 3, vars: 3, consts: [["class", "col-sm-6 pagination-count", 4, "ngIf"], ["class", "ng2-smart-pagination-nav", 4, "ngIf"], ["class", "ng2-smart-pagination-per-page", 4, "ngIf"], [1, "col-sm-6", "pagination-count"], [1, "ng2-smart-pagination-nav"], [1, "ng2-smart-pagination", "pagination"], [1, "ng2-smart-page-item", "page-item", 3, "ngClass"], ["href", "#", "aria-label", "First", 1, "ng2-smart-page-link", "page-link", 3, "click"], ["aria-hidden", "true"], [1, "sr-only"], ["href", "#", "aria-label", "Prev", 1, "ng2-smart-page-link", "page-link", "page-link-prev", 3, "click"], ["class", "ng2-smart-page-item page-item", 3, "ngClass", 4, "ngFor", "ngForOf"], ["href", "#", "aria-label", "Next", 1, "ng2-smart-page-link", "page-link", "page-link-next", 3, "click"], ["href", "#", "aria-label", "Last", 1, "ng2-smart-page-link", "page-link", 3, "click"], ["class", "ng2-smart-page-link page-link", 4, "ngIf"], ["class", "ng2-smart-page-link page-link", "href", "#", 3, "click", 4, "ngIf"], [1, "ng2-smart-page-link", "page-link"], ["href", "#", 1, "ng2-smart-page-link", "page-link", 3, "click"], [1, "ng2-smart-pagination-per-page"], ["for", "per-page"], ["id", "per-page", 3, "ngModel", "change", "ngModelChange"], [3, "value", 4, "ngFor", "ngForOf"], [3, "value"]], template: function PagerComponent_Template(rf, ctx) { if (rf & 1) {
-                core.ɵɵtemplate(0, PagerComponent_div_0_Template, 9, 3, "div", 0);
+                core.ɵɵtemplate(0, PagerComponent_div_0_Template, 9, 7, "div", 0);
                 core.ɵɵtemplate(1, PagerComponent_nav_1_Template, 27, 13, "nav", 1);
                 core.ɵɵtemplate(2, PagerComponent_nav_2_Template, 5, 2, "nav", 2);
             } if (rf & 2) {
@@ -1656,9 +1685,9 @@
             args: [{
                     selector: 'ng2-smart-table-pager',
                     styleUrls: ['./pager.component.scss'],
-                    template: "\n  <div class=\"col-sm-6 pagination-count\" *ngIf=\"shouldShow()\">\n                  <p>Showing <strong>{{(page-1)*currentPerPage+1}}</strong> to \n                  <strong>{{getPage() == getLast() ?count:(page*currentPerPage)}}\n                  </strong> of {{count}} entries</p>\n            </div>\n    <nav *ngIf=\"shouldShow()\" class=\"ng2-smart-pagination-nav\">\n      <ul class=\"ng2-smart-pagination pagination\">\n        <li class=\"ng2-smart-page-item page-item\" [ngClass]=\"{disabled: getPage() == 1}\">\n          <a class=\"ng2-smart-page-link page-link\" href=\"#\"\n          (click)=\"getPage() == 1 ? false : paginate(1)\" aria-label=\"First\">\n            <span aria-hidden=\"true\">&laquo;</span>\n            <span class=\"sr-only\">First</span>\n          </a>\n        </li>\n        <li class=\"ng2-smart-page-item page-item\" [ngClass]=\"{disabled: getPage() == 1}\">\n          <a class=\"ng2-smart-page-link page-link page-link-prev\" href=\"#\"\n             (click)=\"getPage() == 1 ? false : prev()\" aria-label=\"Prev\">\n            <span aria-hidden=\"true\">&lt;</span>\n            <span class=\"sr-only\">Prev</span>\n          </a>\n        </li>\n        <li class=\"ng2-smart-page-item page-item\"\n        [ngClass]=\"{active: getPage() == page}\" *ngFor=\"let page of getPages()\">\n          <span class=\"ng2-smart-page-link page-link\"\n          *ngIf=\"getPage() == page\">{{ page }} <span class=\"sr-only\">(current)</span></span>\n          <a class=\"ng2-smart-page-link page-link\" href=\"#\"\n          (click)=\"paginate(page)\" *ngIf=\"getPage() != page\">{{ page }}</a>\n        </li>\n\n        <li class=\"ng2-smart-page-item page-item\"\n            [ngClass]=\"{disabled: getPage() == getLast()}\">\n          <a class=\"ng2-smart-page-link page-link page-link-next\" href=\"#\"\n             (click)=\"getPage() == getLast() ? false : next()\" aria-label=\"Next\">\n            <span aria-hidden=\"true\">&gt;</span>\n            <span class=\"sr-only\">Next</span>\n          </a>\n        </li>\n        \n        <li class=\"ng2-smart-page-item page-item\"\n        [ngClass]=\"{disabled: getPage() == getLast()}\">\n          <a class=\"ng2-smart-page-link page-link\" href=\"#\"\n          (click)=\"getPage() == getLast() ? false : paginate(getLast())\" aria-label=\"Last\">\n            <span aria-hidden=\"true\">&raquo;</span>\n            <span class=\"sr-only\">Last</span>\n          </a>\n        </li>\n      </ul>\n    </nav>\n    \n    <nav *ngIf=\"perPageSelect && perPageSelect.length > 0\" class=\"ng2-smart-pagination-per-page\">\n      <label for=\"per-page\">\n        Per Page:\n      </label>\n      <select (change)=\"onChangePerPage($event)\" [(ngModel)]=\"currentPerPage\" id=\"per-page\">\n        <option *ngFor=\"let item of perPageSelect\" [value]=\"item\">{{ item }}</option>\n      </select>\n    </nav>\n  ",
+                    template: "\n<div *ngIf=\"shouldShow()\" class=\"col-sm-6 pagination-count\">\n<p>\n{{showing}} <strong>{{(page-1)*perPage+1}}</strong> {{to}} \n<strong>{{(page*perPage) > count?count:(page*perPage)}}</strong> {{of}} {{count}} {{entries}}</p>\n</div>\n    <nav *ngIf=\"shouldShow()\" class=\"ng2-smart-pagination-nav\">\n      <ul class=\"ng2-smart-pagination pagination\">\n        <li class=\"ng2-smart-page-item page-item\" [ngClass]=\"{disabled: getPage() == 1}\">\n          <a class=\"ng2-smart-page-link page-link\" href=\"#\"\n          (click)=\"getPage() == 1 ? false : paginate(1)\" aria-label=\"First\">\n            <span aria-hidden=\"true\">&laquo;</span>\n            <span class=\"sr-only\">First</span>\n          </a>\n        </li>\n        <li class=\"ng2-smart-page-item page-item\" [ngClass]=\"{disabled: getPage() == 1}\">\n          <a class=\"ng2-smart-page-link page-link page-link-prev\" href=\"#\"\n             (click)=\"getPage() == 1 ? false : prev()\" aria-label=\"Prev\">\n            <span aria-hidden=\"true\">&lt;</span>\n            <span class=\"sr-only\">Prev</span>\n          </a>\n        </li>\n        <li class=\"ng2-smart-page-item page-item\"\n        [ngClass]=\"{active: getPage() == page}\" *ngFor=\"let page of getPages()\">\n          <span class=\"ng2-smart-page-link page-link\"\n          *ngIf=\"getPage() == page\">{{ page }} <span class=\"sr-only\">(current)</span></span>\n          <a class=\"ng2-smart-page-link page-link\" href=\"#\"\n          (click)=\"paginate(page)\" *ngIf=\"getPage() != page\">{{ page }}</a>\n        </li>\n\n        <li class=\"ng2-smart-page-item page-item\"\n            [ngClass]=\"{disabled: getPage() == getLast()}\">\n          <a class=\"ng2-smart-page-link page-link page-link-next\" href=\"#\"\n             (click)=\"getPage() == getLast() ? false : next()\" aria-label=\"Next\">\n            <span aria-hidden=\"true\">&gt;</span>\n            <span class=\"sr-only\">Next</span>\n          </a>\n        </li>\n        \n        <li class=\"ng2-smart-page-item page-item\"\n        [ngClass]=\"{disabled: getPage() == getLast()}\">\n          <a class=\"ng2-smart-page-link page-link\" href=\"#\"\n          (click)=\"getPage() == getLast() ? false : paginate(getLast())\" aria-label=\"Last\">\n            <span aria-hidden=\"true\">&raquo;</span>\n            <span class=\"sr-only\">Last</span>\n          </a>\n        </li>\n      </ul>\n    </nav>\n    \n    <nav *ngIf=\"perPageSelect && perPageSelect.length > 0\" class=\"ng2-smart-pagination-per-page\">\n      <label for=\"per-page\">\n        Per Page:\n      </label>\n      <select (change)=\"onChangePerPage($event)\" [(ngModel)]=\"currentPerPage\" id=\"per-page\">\n        <option *ngFor=\"let item of perPageSelect\" [value]=\"item\">{{ item }}</option>\n      </select>\n    </nav>\n  ",
                 }]
-        }], null, { source: [{
+        }], function () { return []; }, { source: [{
                 type: core.Input
             }], perPageSelect: [{
                 type: core.Input

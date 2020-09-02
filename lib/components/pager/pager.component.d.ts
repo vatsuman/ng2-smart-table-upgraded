@@ -3,6 +3,11 @@ import { Subscription } from 'rxjs';
 import { DataSource } from '../../lib/data-source/data-source';
 import * as i0 from "@angular/core";
 export declare class PagerComponent implements OnChanges {
+    showing: string;
+    to: string;
+    of: string;
+    entries: string;
+    constructor();
     source: DataSource;
     perPageSelect: any[];
     changePage: EventEmitter<any>;
